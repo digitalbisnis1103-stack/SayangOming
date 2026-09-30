@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SayangOming🫂🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--blue:#4f8cff;
+--blue2:#246bff;
+--soft:#f4f8ff;
+--text:#24415c;
+--white:#ffffff;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(to bottom,#f8fbff,#edf5ff);
+overflow:hidden;
+color:var(--text);
+}
+
+.page{
+position:absolute;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:30px;
+opacity:0;
+pointer-events:none;
+transform:translateY(40px) scale(.96);
+transition:all 1s ease;
+}
+
+.page.active{
+opacity:1;
+pointer-events:auto;
+transform:translateY(0) scale(1);
+}
+
+.title{
+font-family:'Fredoka',sans-serif;
+font-size:2.5rem;
+text-align:center;
+color:var(--blue2);
+margin-top:20px;
+}
+
+.subtitle{
+font-size:1rem;
+margin-top:10px;
+text-align:center;
+line-height:1.7;
+}
+
+.cat{
+font-size:7rem;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+}
+
+.btn{
+margin-top:30px;
+padding:14px 35px;
+border:none;
+border-radius:50px;
+background:linear-gradient(135deg,var(--blue),var(--blue2));
+color:white;
+font-size:1rem;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 10px 30px rgba(79,140,255,.3);
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+.loading{
+position:fixed;
+inset:0;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+}
+
+.loader{
+width:100px;
+height:100px;
+border-radius:50%;
+background:linear-gradient(135deg,var(--blue),var(--blue2));
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:3rem;
+animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+}
+
+.progress{
+width:220px;
+height:8px;
+background:#dbe9ff;
+border-radius:20px;
+margin-top:25px;
+overflow:hidden;
+}
+
+.progress div{
+height:100%;
+width:0;
+background:linear-gradient(90deg,var(--blue),var(--blue2));
+animation:load 3s forwards;
+}
+
+@keyframes load{
+to{width:100%}
+}
+
+.password-box{
+background:rgba(255,255,255,.9);
+padding:30px;
+border-radius:30px;
+box-shadow:0 15px 50px rgba(0,0,0,.08);
+margin-top:20px;
+}
+
+.pin-display{
+display:flex;
+gap:12px;
+justify-content:center;
+margin:20px 0;
+}
+
+.dot{
+width:18px;
+height:18px;
+border:2px solid var(--blue2);
+border-radius:50%;
+}
+
+.dot.fill{
+background:var(--blue2);
+}
+
+.keypad{
+display:grid;
+grid-template-columns:repeat(3,70px);
+gap:12px;
+justify-content:center;
+margin-top:20px;
+}
+
+.key{
+height:70px;
+border:none;
+border-radius:20px;
+background:white;
+font-size:1.5rem;
+font-weight:600;
+color:var(--blue2);
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+cursor:pointer;
+}
+
+.key:hover{
+transform:scale(1.05);
+}
+
+.clue{
+margin-top:20px;
+font-size:.9rem;
+opacity:.7;
+text-align:center;
+}
+
+.buttons{
+display:flex;
+gap:15px;
+margin-top:20px;
+position:relative;
+}
+
+.memory-card{
+width:320px;
+background:white;
+padding:20px;
+border-radius:30px;
+box-shadow:0 10px 40px rgba(0,0,0,.08);
+text-align:center;
+}
+
+.memory-card img{
+width:100%;
+height:360px;
+object-fit:cover;
+border-radius:20px;
+}
+
+.memory-card p{
+margin-top:20px;
+font-size:1rem;
+line-height:1.7;
+}
+
+.swiper{
+width:320px;
+padding-bottom:50px;
+}
+
+.letter{
+max-width:700px;
+max-height:80vh;
+overflow-y:auto;
+background:rgba(255,255,255,.9);
+padding:40px;
+border-radius:35px;
+line-height:2;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+.music-btn{
+position:fixed;
+right:20px;
+top:20px;
+width:60px;
+height:60px;
+border:none;
+border-radius:50%;
+background:linear-gradient(135deg,var(--blue),var(--blue2));
+color:white;
+font-size:1.5rem;
+box-shadow:0 10px 25px rgba(79,140,255,.3);
+z-index:100;
+cursor:pointer;
+animation:spin 10s linear infinite;
+}
+
+@keyframes spin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+
+.hearts{
+position:fixed;
+inset:0;
+pointer-events:none;
+overflow:hidden;
+}
+
+.heart{
+position:absolute;
+font-size:20px;
+animation:heartFloat linear forwards;
+}
+
+@keyframes heartFloat{
+0%{
+transform:translateY(100vh) scale(.5);
+opacity:0;
+}
+100%{
+transform:translateY(-100px) scale(1.2);
+opacity:1;
+}
+}
+
+@media(max-width:480px){
+.title{
+font-size:2rem;
+}
+
+.choice{
+padding:14px;
+border:none;
+border-radius:18px;
+background:#edf5ff;
+font-size:1rem;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
+
+.choice:hover{
+background:var(--blue);
+color:white;
+transform:scale(1.03);
+}
+
+.memory-card{
+width:90%;
+}
+
+.letter{
+padding:25px;
+font-size:.95rem;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading">
+<div class="loader">💙</div>
+<h2 style="margin-top:20px;color:#246bff;font-family:Fredoka">Preparing your surprise...</h2>
+<div class="progress"><div></div></div>
+</div>
+
+<button class="music-btn" id="musicBtn">🎵</button>
+<audio id="bgMusic" autoplay loop>
+    <source src="birthday.mp3" type="audio/mp3">
+    </audio>
+
+<div class="hearts" id="hearts"></div>
+
+<!-- PAGE 1 -->
+<section class="page active" id="page1">
+<div class="cat">😻</div>
+<h1 class="title">Hi Love</h1>
+<p class="subtitle">Ayo tebak passwordnya,<br>I bet u know!!</p>
+
+<div class="password-box">
+<div class="pin-display">
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+</div>
+
+<div class="keypad">
+<button class="key">1</button>
+<button class="key">2</button>
+<button class="key">3</button>
+<button class="key">4</button>
+<button class="key">5</button>
+<button class="key">6</button>
+<button class="key">7</button>
+<button class="key">8</button>
+<button class="key">9</button>
+<button class="key">0</button>
+<button class="key" id="delete">⌫</button>
+</div>
+
+<p class="clue">clue : your birthday</p>
+</div>
+</section>
+
+<!-- PAGE 2 : SLIDE 1 -->
+<section class="page" id="page2">
+    <div class="cat">🥺</div>
+    <h1 class="title">Aku tau aku salah tadi...</h1>
+    <p class="subtitle">
+        Aku gak pinter ngerangkai kata kalau ngomong langsung,<br>
+        jadi aku bikin ini aja buat kamu.<br><br>
+        Buka ya? 🤍
+    </p>
+    <button class="btn next" data-next="3">buka yaa &lt;3</button>
+</section>
+
+<!-- PAGE 3 : SLIDE 2 -->
+<section class="page" id="page3">
+    <div class="cat">🫂</div>
+    <h1 class="title">Hai sayangku...</h1>
+    <p class="subtitle">
+        Ini aku.<br>
+        Orang yang barusan bikin kamu kecewa.<br><br>
+        Makasih masih mau buka surat ini. 🤍
+    </p>
+    <button class="btn next" data-next="4">lanjut ya sayang &lt;3</button>
+</section>
+
+<!-- PAGE 4 : SLIDE 3 / LONG LETTER -->
+<section class="page" id="page4">
+    <div class="letter">
+        <h1 class="title" style="font-size:2rem">Sayang, maaf ya... 🤍</h1>
+
+        <div style="margin-top:20px; text-align:left;">
+            <p>
+                Aku tau aku salah. Maaf udah bikin kamu kecewa, marah,
+                dan mungkin nangis karena aku.
+            </p>
+
+            <p style="margin-top:18px;">
+                Aku gak ada niat nyakitin kamu, tapi sikap dan kata-kata ku
+                tadi nyakitin kamu. Itu salah aku sepenuhnya.
+            </p>
+
+            <p style="margin-top:18px;">
+                Kamu itu berharga banget buat aku. Terlalu berharga buat aku
+                sia-siain cuma karena ego aku.
+            </p>
+
+            <p style="margin-top:18px;">
+                Kalau boleh jujur, abis kita marahan tadi, aku langsung nyesel.
+                Aku kepikiran kamu terus.
+            </p>
+
+            <p style="margin-top:18px;">
+                Maafin aku ya sayang? Jangan marah lama-lama ya?
+                Aku kangen kamu yang ceria lagi.
+            </p>
+
+            <p style="margin-top:18px;">
+                Aku janji bakal belajar lebih sabar, lebih dengerin kamu,
+                dan gak ngulangi kesalahan yang sama.
+            </p>
+
+            <p style="margin-top:22px; text-align:center; font-weight:600;">
+                Aku sayang banget sama kamu. 🤍🫂
+            </p>
+        </div>
+
+        <button class="btn next" data-next="5">aku sayang kamu &lt;3</button>
+    </div>
+</section>
+
+<!-- PAGE 5 : CLOSING -->
+<section class="page" id="page5">
+    <div class="cat">🤍</div>
+    <h1 class="title">Maafin aku ya, sayang...</h1>
+    <p class="subtitle">
+        Aku gak mau kehilangan senyum kamu.<br>
+        Aku cuma mau kita baik-baik lagi. 🫂
+    </p>
+    <button class="btn" onclick="location.reload()">ulang dari awal 🤍</button>
+</section>
+
+<script>
+const pages = document.querySelectorAll('.page');
+
+function showPage(id){
+    pages.forEach(page => page.classList.remove('active'));
+    setTimeout(() => {
+        const target = document.getElementById('page' + id);
+        if(target) target.classList.add('active');
+    }, 200);
+}
+
+window.onload = () => {
+    setTimeout(() => {
+        gsap.to('#loading', {
+            opacity: 0,
+            duration: 1,
+            onComplete: () => {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+    }, 3000);
+};
+
+// MUSIC
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+let playing = false;
+
+window.addEventListener('load', () => {
+    music.play().then(() => {
+        musicBtn.innerHTML = '🎶';
+        playing = true;
+    }).catch(() => {
+        document.body.addEventListener('click', () => {
+            music.play();
+            musicBtn.innerHTML = '🎶';
+            playing = true;
+        }, {once:true});
+    });
+});
+
+musicBtn.addEventListener('click', () => {
+    if(!playing){
+        music.play();
+        musicBtn.innerHTML = '🎶';
+    }else{
+        music.pause();
+        musicBtn.innerHTML = '🎵';
+    }
+    playing = !playing;
+});
+
+// PASSWORD — tetap 1005
+let password = '';
+const correct = '1703';
+const dots = document.querySelectorAll('.dot');
+const keys = document.querySelectorAll('.key');
+
+keys.forEach(key => {
+    key.addEventListener('click', () => {
+        const val = key.innerText;
+
+        if(val === '⌫'){
+            password = password.slice(0, -1);
+            updateDots();
+            return;
+        }
+
+        if(password.length < 4){
+            password += val;
+            updateDots();
+        }
+
+        if(password.length === 4){
+            setTimeout(checkPassword, 400);
+        }
+    });
+});
+
+function updateDots(){
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('fill', index < password.length);
+    });
+}
+
+function checkPassword(){
+    if(password === correct){
+        confetti({
+            particleCount: 150,
+            spread: 90
+        });
+        showPage(2);
+    }else{
+        gsap.fromTo(
+            '.password-box',
+            {x:-10},
+            {x:10, duration:.05, repeat:5, yoyo:true}
+        );
+        password = '';
+        updateDots();
+    }
+}
+
+// NEXT BUTTON
+const nextButtons = document.querySelectorAll('.next');
+
+nextButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const next = btn.dataset.next;
+        showPage(next);
+
+        if(next == 5){
+            confetti({
+                particleCount: 180,
+                spread: 120
+            });
+        }
+    });
+});
+
+// FLOATING HEARTS
+setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = '🤍';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = 4 + Math.random() * 4 + 's';
+
+    document.getElementById('hearts').appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+}, 700);
+</script>
+
+</body>
+</html>
